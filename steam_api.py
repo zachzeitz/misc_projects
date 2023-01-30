@@ -3,7 +3,8 @@ import requests
 import json
 from tkinter import ttk
 
-#Steam Web API API_KEY Key: 19C802CE0682478C92E4D978AAEC10A1
+API_KEY= {STEAM API KEY}
+
 root = Tk()
 root.title("Using API Example")
 root.geometry("550x800")
@@ -41,7 +42,7 @@ def id_lookup():
     #myLabel2.destroy()
        
     try:
-        api_request = requests.get("http://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/?gameid="+gameid_input.get()+"&format=json&API_KEY=19C802CE0682478C92E4D978AAEC10A1")
+        api_request = requests.get("http://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/?gameid="+gameid_input.get()+"&format=json&API_KEY="+API_KEY.get())
 
         # No parenthesis after content, causes error to occur
         api = json.loads(api_request.content) #dictionary
