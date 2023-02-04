@@ -3,8 +3,7 @@ import requests
 import json
 from tkinter import ttk
 
-API_KEY= {STEAM API KEY}
-
+API_KEY="19C802CE0682478C92E4D978AAEC10A1"
 root = Tk()
 root.title("Using API Example")
 root.geometry("550x800")
@@ -31,18 +30,24 @@ second_frame= Frame(my_canvas)
 #add that new frame to windo inisde the canvas
 my_canvas.create_window((0,0), window=second_frame, anchor="nw")
 
-#myLabel= Label(second_frame)
-#myLabel2= Label(second_frame)
+myLabel= Label(second_frame)
+myLabel2= Label(second_frame)
+
+names_list= []
+percents_list= []
 
 def id_lookup():
-    #global myLabel
-    #global myLabel2
+    global myLabel
+    global myLabel2
+    
+    names_list.clear()
+    percents_list.clear()
     
     #myLabel.destroy()
     #myLabel2.destroy()
-       
+    
     try:
-        api_request = requests.get("http://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/?gameid="+gameid_input.get()+"&format=json&API_KEY="+API_KEY.get())
+        api_request = requests.get("http://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/?gameid="+gameid_input.get()+"&format=json&API_KEY="+API_KEY)
 
         # No parenthesis after content, causes error to occur
         api = json.loads(api_request.content) #dictionary
@@ -55,19 +60,21 @@ def id_lookup():
         a= api['achievementpercentages']['achievements']
         
         names=[i["name"] for i in a]
+        
         for x in range(len(names)):
-            myLabel =Label(second_frame)
-            myLabel.grid(row=x+2, column=0, columnspan=1, sticky=W)
-            myLabel.destroy()
-            myLabel =Label(second_frame, text=names[x], fg="blue")
-            #myLabel.config(text=names[x])
-            print(myLabel['text'])
+           names_list.append(names[x])  
+
+        for x in range(len(names_list)):
+            myLabel =Label(second_frame, text=names_list[x], fg="blue")   
             myLabel.grid(row=x+2, column=0, columnspan=1, sticky=W)
 
         percents= [p["percent"] for p in a]
+        
         for x in range(len(percents)):
-            #myLabel2.destroy()
-            myLabel2=Label(second_frame, text=percents[x], fg="purple")
+           percents_list.append(percents[x])
+        
+        for x in range(0, len(percents_list)):
+            myLabel2=Label(second_frame, text=percents_list[x], fg="purple")
             myLabel2.grid(row=x+2, column=1, columnspan=1)
 
     except Exception as e:
